@@ -54,7 +54,7 @@ PRACTICA 2
 ---
 
 ## EXERCICI 1
-Calculeu la següent suma amb R, on s[i] és el valor de la variable "s" ( de la taula de dades) corresponent al cas de i:
+Calculeu la següent suma amb R, on s[i] és el valor de la variable "s" ( de la table de dades) corresponent al cas de i:
 ```{r}
 i<- 426:579
 sum((table$s[i - 425])/(i))
@@ -97,7 +97,7 @@ PRACTICA 3
 ## EXERCICI 1
 Troba el diametre mes petit dels roures malalts
 ```{r}
-table <- read.table('C3_dades_9000268_1670984.txt', header=TRUE, dec='.') # dades
+table <- read.table('C3_table.txt', header=TRUE, dec='.') # dades
 rouresMalalts <- subset(table, arbre == "R" & salut == "M") # Filtrem les dades que son roures (arbre == "R") i estan malalts (salut == "M")
 min(rouresMalalts$diam) # Retornem el diametre mes petit
 ```
@@ -105,28 +105,28 @@ min(rouresMalalts$diam) # Retornem el diametre mes petit
 ## EXERCICI 2
 
 ```{r pressure}
-roures <- subset(dades_9000268_1670984$diam, dades_9000268_1670984$arbre == "R")
+roures <- subset(table$diam, table$arbre == "R")
 print(n_distinct(roures))
 ```
 
 ## EXERCICI 3
 
 ```{r}
-volumroure <- pi/4 * dades_9000268_1670984$alt[dades_9000268_1670984$arbre == "F"] * (dades_9000268_1670984$diam [dades_9000268_1670984$arbre == "F"]/100)^2
+volumroure <- pi/4 * table$alt[table$arbre == "F"] * (table$diam [table$arbre == "F"]/100)^2
 mean(volumroure)
 ```
 
 ## EXERCICI 4
 
 ```{r}
-diamfaig <- dades_9000268_1670984$diam [dades_9000268_1670984$arbre == "F"]
-diaminf <- dades_9000268_1670984$diam [dades_9000268_1670984$arbre == "F" & dades_9000268_1670984$diam <= mean(diamfaig)]
+diamfaig <- table$diam [table$arbre == "F"]
+diaminf <- table$diam [table$arbre == "F" & table$diam <= mean(diamfaig)]
 length(diaminf) * 100/length(diamfaig)
 ```
 
 ## EXERCICI 5
 ```{r}
-diamroure <- dades_9000268_1670984$alt[dades_9000268_1670984$arbre == "R"]
+diamroure <- table$alt[table$arbre == "R"]
 talls <- c(10.5 , 12, 16.5, 17, 18, 20, 20.5, 25)
 intervals <- cut(diamroure, talls)
 table(intervals)
@@ -141,16 +141,15 @@ PRACTICA 4
 ---
 
 ## EXERCICI 1
-
+Sigui X una variable amb distribucó normal N(u, signma), amb mitjana u=189 i desviació típica sigma = 18. si P{X>=x}=0.63287, quin és el valor de x? 
 ```{r ex1}
 qnorm(mean = 189, sd = 18, p = (1 - 0.63287))
-
 ```
 
 ## EXERCICI 2
-
+Escollim 328 arbres, a l'atzar i amb remplaçament, entre els 1800. Calculeu la probabilitat que el nombre de roures sans, entre els arbres escollits, estigui comprés entre 155 i 180(inclusivament)
 ```{r ex2}
-roures_sans <- taula$diam[taula$arbre == "F" & taula$salut == "M"]
+roures_sans <- table$diam[table$arbre == "F" & table$salut == "M"]
 allargada=length(roures_sans)
 prob = allargada/1800
 pbinom(size = 328, prob = 0.230555555556, q = 84) - pbinom(size = 328, prob = 0.230555555556, q = (67 - 1))
@@ -158,9 +157,9 @@ pbinom(size = 328, prob = 0.230555555556, q = 84) - pbinom(size = 328, prob = 0.
 ```
 
 ## EXERCICI 3
-
+Determineu la regla de regressió de l'alçada respecte del diàmetre en els roures. Quina és l'alçada mitjana que prediu aquest model per aun roure de 46.37cm de diàmetre?
 ```{r ex3}
-faigs<-subset(taula, arbre == "F")
+faigs<-subset(table, arbre == "F")
 model<-lm(alt~diam, data=faigs)
 new_diam<-data.frame(diam=39.81)
 prediccio<-predict(model, new_data=new_diam)
@@ -168,9 +167,10 @@ mean(prediccio)
 ```
 
 ## EXERCICI 4
-
+El coeficient de variació de Pearson CV, es defineix com el quocient entre la desviació típica corretgida i el valor absolut de la mitjana. 
+Calculeu el coeficient de variació de Pearson de l'altura dels roures malalts en % 
 ```{r ex4}
-roures_sans <- taula$alt[taula$arbre == "R" & taula$salut == "S"]
+roures_sans <- table$alt[table$arbre == "R" & table$salut == "S"]
 mitjana_roures<-abs(mean(roures_sans))
 sd_roures<-sd(roures_sans)
 
@@ -179,16 +179,9 @@ CV_alt * 100
 ```
 
 ## EXERCICI 5
-
+Calculeu el primer quartil de l'altura dels faigs sans
 ```{r ex5}
-altura_faigs_sans <- taula$alt[taula$arbre == "R" & taula$salut == "S"]
+altura_faigs_sans <- table$alt[table$arbre == "R" & table$salut == "S"]
 quantile(altura_faigs_sans, 0.25)
 summary(altura_faigs_sans)
-
-roures_sans <- taula$alt[taula$arbre == "R" & taula$salut == "S"]
-var_roures <- var(roures_sans)
-desvt_rouressans <- sqrt(var_roures)
-mitjana_roures <- mean(roures_sans)
-CV_alt <- desvt_rouressans / mitjana_roures
-CV_alt * 100
 ```
