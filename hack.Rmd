@@ -1,0 +1,194 @@
+---
+PRACTICA 1
+---
+
+## EXERCICI 1
+Calcula la mitjana del pes dels homes
+``` {r ex1}
+table <- read.table(paste0(getwd(),"/", "C1_dades_",9000445,".txt"), header=TRUE,dec=".") # Datos
+menWeight <- subset(table$pes, table$sex == 1) # Filtramos para tener el peso de los hombres (sex == 1)
+menMean = mean(menWeight) # Usamos la funcion mean para calcular la mediana de nuestros datos filtrados
+print(menMean) # imprimimos el resultado
+```
+
+## EXERCICI 2
+Calcula usando la siguiente formula: 
+Formula en la hoja de examen.
+``` {r ex2}
+i <- 3:9 # creamos un vector que va desde el 3 hasta el 9 (inclusivo)
+res <- sum(((3^i)*factorial(i))/i^i) # aplicamos sum para sumar cada una de las operaciones. R opera los vectores automaticamente indice por indice. El truco en este ejercicio es poner la operacion en base a i
+print(res) # imprimimos el resultado
+```
+
+## EXERCICI 3
+Calcula la media del siguiente vector: [695051.9, 695052.8, 695052.2, 695051.1, 695052.7, 695053.6, 695053]
+``` {r ex3}
+myVec <- c(695051.9, 695052.8, 695052.2, 695051.1, 695052.7, 695053.6, 695053) # Creamos un vector con c()
+res <- mean(myVec) # Calculamos la media con la funcion mean()
+print(res) # imprimimos el resultado
+```
+
+## EXERCICI 4
+Calcula la media del IMC de las mujeres.
+``` {r ex4}
+table <- read.table(paste0(getwd(),"/", "C1_dades_",9000445,".txt"), header=TRUE,dec=".") # datos
+womenHeight <- subset(table$alt, table$sex == 2)*2.54 # Filtramos la altura de las mujeres (sex == 2)
+womenWeight <- subset(table$pes, table$sex == 2)*0.4536 # Filtramos el peso de las mujeres (sex == 2)
+womenIMC <- womenWeight / (womenHeight^2) # aplicamos la forumal del IMC para todas las mujeres
+womenMean <- mean(womenIMC) # Calculamos la media del IMC de las mujeres
+print(womenMean) # imprimimos el resultado
+```
+
+
+## EXERCICI 5
+Calcula usando la siguiente formula: 
+Formula en la hoja de examen.
+``` {r ex5}
+i <- 659:738 # creamos un vector que va desde el 659 hasta el 738 (inclusivo)
+res <- sum(1/i)  # aplicamos sum para sumar cada una de las operaciones. R opera los vectores automaticamente indice por indice. El truco en este ejercicio es poner la operacion en base a i
+print(res) # imprimimos el resultado
+```
+
+---
+PRACTICA 2
+---
+
+## EXERCICI 1
+Calculeu la següent suma amb R, on s[i] és el valor de la variable "s" ( de la taula de dades) corresponent al cas de i:
+```{r}
+i<- 426:579
+sum((table$s[i - 425])/(i))
+```
+
+
+## EXERCICI 2
+La suma dels quadrats d'una mostra de tamany 7 és 21050. Sabent que la desviació típica (no corregida) sigma_n és igual a 5.39463, determineu la mitjana d'aquesta mostra.
+```{r}
+sqrt(12810/7 - 4.203982^2)
+```
+
+## EXERCICI 3
+Calculeu la mitjana del pes de les dones
+```{r}
+mean(table$pes[table4$sex == 2])
+```
+
+## EXERCICI 4 
+La suma dels quadrats d'una mostra de tamany 7 és 21050. Sabent que la desviació típica (no corregida) sigma_n és igual a 5.39463, determineu la mitjana d'aquesta mostra.
+```{r}
+i <- 9:42
+sum(((table$s[i - 8]) * (3^i * factorial(i)))/i^i)
+```
+
+
+## EXERCICI 5
+IMC, es defineix com el quocient entr el pes( en KG) i el quadrat de l'alçada ( en m), per tant les unitats del IMC són Kg*m^-2.aCalculeu la mitjana de l'IMC dels homes.
+```{r}
+alturadones <- table$alt[table$sex == 2] * (2.54/100)
+pesdones <- table$pes[table$sex == 2] * 0.4536
+IMCdones <- pesdones / alturadones^2
+mean(IMCdones)
+```
+
+---
+PRACTICA 3
+---
+
+## EXERCICI 1
+Troba el diametre mes petit dels roures malalts
+```{r}
+table <- read.table('C3_dades_9000268_1670984.txt', header=TRUE, dec='.') # dades
+rouresMalalts <- subset(table, arbre == "R" & salut == "M") # Filtrem les dades que son roures (arbre == "R") i estan malalts (salut == "M")
+min(rouresMalalts$diam) # Retornem el diametre mes petit
+```
+
+## EXERCICI 2
+
+```{r pressure}
+roures <- subset(dades_9000268_1670984$diam, dades_9000268_1670984$arbre == "R")
+print(n_distinct(roures))
+```
+
+## EXERCICI 3
+
+```{r}
+volumroure <- pi/4 * dades_9000268_1670984$alt[dades_9000268_1670984$arbre == "F"] * (dades_9000268_1670984$diam [dades_9000268_1670984$arbre == "F"]/100)^2
+mean(volumroure)
+```
+
+## EXERCICI 4
+
+```{r}
+diamfaig <- dades_9000268_1670984$diam [dades_9000268_1670984$arbre == "F"]
+diaminf <- dades_9000268_1670984$diam [dades_9000268_1670984$arbre == "F" & dades_9000268_1670984$diam <= mean(diamfaig)]
+length(diaminf) * 100/length(diamfaig)
+```
+
+## EXERCICI 5
+```{r}
+diamroure <- dades_9000268_1670984$alt[dades_9000268_1670984$arbre == "R"]
+talls <- c(10.5 , 12, 16.5, 17, 18, 20, 20.5, 25)
+intervals <- cut(diamroure, talls)
+table(intervals)
+length (diamroure)
+(11.25 * 2 + 14.25 * 219 + 16.75 * 66 + 17.5 * 192 + 19 * 371 + 20.25 * 49 + 22.75 * 100)/ 999
+
+
+```
+
+---
+PRACTICA 4
+---
+
+## EXERCICI 1
+
+```{r ex1}
+qnorm(mean = 189, sd = 18, p = (1 - 0.63287))
+
+```
+
+## EXERCICI 2
+
+```{r ex2}
+roures_sans <- taula$diam[taula$arbre == "F" & taula$salut == "M"]
+allargada=length(roures_sans)
+prob = allargada/1800
+pbinom(size = 328, prob = 0.230555555556, q = 84) - pbinom(size = 328, prob = 0.230555555556, q = (67 - 1))
+
+```
+
+## EXERCICI 3
+
+```{r ex3}
+faigs<-subset(taula, arbre == "F")
+model<-lm(alt~diam, data=faigs)
+new_diam<-data.frame(diam=39.81)
+prediccio<-predict(model, new_data=new_diam)
+mean(prediccio)
+```
+
+## EXERCICI 4
+
+```{r ex4}
+roures_sans <- taula$alt[taula$arbre == "R" & taula$salut == "S"]
+mitjana_roures<-abs(mean(roures_sans))
+sd_roures<-sd(roures_sans)
+
+CV_alt <- sd_roures / mitjana_roures
+CV_alt * 100
+```
+
+## EXERCICI 5
+
+```{r ex5}
+altura_faigs_sans <- taula$alt[taula$arbre == "R" & taula$salut == "S"]
+quantile(altura_faigs_sans, 0.25)
+summary(altura_faigs_sans)
+
+roures_sans <- taula$alt[taula$arbre == "R" & taula$salut == "S"]
+var_roures <- var(roures_sans)
+desvt_rouressans <- sqrt(var_roures)
+mitjana_roures <- mean(roures_sans)
+CV_alt <- desvt_rouressans / mitjana_roures
+CV_alt * 100
+```
